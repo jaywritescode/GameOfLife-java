@@ -12,8 +12,12 @@ public class RLEReader {
                         rulePattern = "rule ?= ?((B[0-8]*/S[0-8]*)|([0-8]*/[0-8]*))",
                         cellRunPattern = "([1-9]\\d*)?([bo$])";
 
-    public RLEReader(String filename) throws FileNotFoundException {
-        br = new BufferedReader(new FileReader(filename));
+    public RLEReader(File file) throws FileNotFoundException {
+        br = new BufferedReader(new FileReader(file));
+    }
+    
+    public RLEReader(String rle) {
+    	br = new BufferedReader(new StringReader(rle));
     }
 
     private String readLine() throws IOException {
@@ -23,12 +27,18 @@ public class RLEReader {
     private void close() throws IOException {
         br.close();
     }
-
-    public static GameOfLife load(final String filename) throws FileNotFoundException, IllegalArgumentException {
-        RLEReader reader = new RLEReader(filename);
-
+    
+    public static GameOfLife create(final File file) throws FileNotFoundException, IllegalArgumentException {
+    	return (new RLEReader(file)).load();
+    }
+    
+    public static GameOfLife create(final String rle) {
+        return (new RLEReader(rle)).load();   	
+     }
+    
+    public GameOfLife load() {
         try {
-            String header = reader.getHeaderLine();
+            String header = getHeaderLine();
 
             Matcher headerMatcher = Pattern.compile(String.format("^%s, ?%s(, ?%s)?$",
                     xPattern, yPattern, rulePattern), Pattern.CASE_INSENSITIVE).matcher(header);
@@ -51,7 +61,7 @@ public class RLEReader {
 
             boolean[][] grid = new boolean[y][x];
 
-            String[] cellStrings = reader.getCellString().split("\\$");
+            String[] cellStrings = getCellString().split("\\$");
             Pattern p = Pattern.compile(cellRunPattern);
             Matcher cellRunMatcher;
 
@@ -93,7 +103,7 @@ public class RLEReader {
         }
         finally {
             try {
-                reader.close();
+                close();
             }
             catch(IOException e) {
                 e.printStackTrace();
