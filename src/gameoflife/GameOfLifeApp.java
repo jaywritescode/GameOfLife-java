@@ -130,7 +130,6 @@ public class GameOfLifeApp extends JFrame implements ActionListener, Runnable {
                     });
                     dialog.getRootPane().setDefaultButton(setButton);
 
-
                     JScrollPane scrollPane = new JScrollPane(textArea);
                     scrollPane.setPreferredSize(new Dimension(500, 120));
 
