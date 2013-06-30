@@ -15,9 +15,9 @@ public class RLEReader {
     public RLEReader(File file) throws FileNotFoundException {
         br = new BufferedReader(new FileReader(file));
     }
-    
+
     public RLEReader(String rle) {
-    	br = new BufferedReader(new StringReader(rle));
+        br = new BufferedReader(new StringReader(rle));
     }
 
     private String readLine() throws IOException {
@@ -27,15 +27,15 @@ public class RLEReader {
     private void close() throws IOException {
         br.close();
     }
-    
+
     public static GameOfLife create(final File file) throws FileNotFoundException, IllegalArgumentException {
-    	return (new RLEReader(file)).load();
+        return (new RLEReader(file)).load();
     }
-    
+
     public static GameOfLife create(final String rle) {
-        return (new RLEReader(rle)).load();   	
+        return (new RLEReader(rle)).load();
      }
-    
+
     public GameOfLife load() {
         try {
             String header = getHeaderLine();

@@ -115,35 +115,35 @@ public class GameOfLifeApp extends JFrame implements ActionListener, Runnable {
 
     public static void main(String[] args) throws Exception {
         if(args.length == 0) {
-        	SwingUtilities.invokeAndWait(new Runnable() {
-        		@Override public void run() {
-        			JDialog dialog = new JDialog(new JFrame(), "Enter RLE", false);
-        			dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        			
-        			final JTextArea textArea = new JTextArea();
+            SwingUtilities.invokeAndWait(new Runnable() {
+                @Override public void run() {
+                    JDialog dialog = new JDialog(new JFrame(), "Enter RLE", false);
+                    dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        			final JButton setButton = new JButton("Initialize Game of Life");
-        	        setButton.addActionListener(new ActionListener() {
-        	        	@Override public void actionPerformed(ActionEvent e) {
-        	        		new GameOfLifeApp(RLEReader.create(textArea.getText()));
-        	        	}
-        	        });
-        	        dialog.getRootPane().setDefaultButton(setButton);
-        	        
-        	        
-        	        JScrollPane scrollPane = new JScrollPane(textArea);
-        	        scrollPane.setPreferredSize(new Dimension(500, 120));
-        	        
-        	        dialog.add(scrollPane, BorderLayout.CENTER);
-        	        dialog.add(setButton, BorderLayout.PAGE_END);
-        	        
-        	        dialog.pack();
-        	        dialog.setVisible(true);
-        		}
-        	});
+                    final JTextArea textArea = new JTextArea();
+
+                    final JButton setButton = new JButton("Initialize Game of Life");
+                    setButton.addActionListener(new ActionListener() {
+                        @Override public void actionPerformed(ActionEvent e) {
+                            new GameOfLifeApp(RLEReader.create(textArea.getText()));
+                        }
+                    });
+                    dialog.getRootPane().setDefaultButton(setButton);
+
+
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    scrollPane.setPreferredSize(new Dimension(500, 120));
+
+                    dialog.add(scrollPane, BorderLayout.CENTER);
+                    dialog.add(setButton, BorderLayout.PAGE_END);
+
+                    dialog.pack();
+                    dialog.setVisible(true);
+                }
+            });
         }
         else {
-        	new GameOfLifeApp(RLEReader.create(new java.io.File(args[0])));        	
+            new GameOfLifeApp(RLEReader.create(new java.io.File(args[0])));
         }
     }
 }
